@@ -1,0 +1,80 @@
+name: Chocolatine
+
+on:
+  push:
+    branches-ignore:
+      - 'ga-ignore-*'
+    paths-ignore:
+      - '.github/workflows/chocolatine.yml'
+  pull_request:
+    branches-ignore:
+      - 'ga-ignore-*'
+    paths-ignore:
+      - '.github/workflows/chocolatine.yml'
+
+env:
+  MIRROR_URL: "ssh://git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git"
+  EXECUTABLES: "executable"
+
+jobs:
+  check_coding_style:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/epitech/coding-style-checker:latest
+    steps:
+      - name: Check repository
+        uses: actions/checkout@v3.3.0
+      - name: Check coding style
+        run: check.sh $(pwd) $(pwd)
+      - name: Run coding style
+        run: coding-style . .
+          describe file('coding-style-reports.log') do
+            if its(:contents) { should be_empty }; then
+              exit 1
+            fi
+          done
+
+  check_program_compilation:
+    runs-on: epitechcontent/epitest-docker
+    needs: [check_coding_style]
+    timeout-minutes: 2
+    steps:
+      - name: Check repository
+        uses: actions/checkout@v3.3.0
+      - name: Build program
+        run: make
+      - name: Make clean
+        run: make clean
+      - name: Verify executability
+        run: |
+          IFS=','
+          for exec in $EXECUTABLES; do
+            if [ ! -x "$exec" ]; then
+              exit 1
+            fi
+          done
+
+  run_tests:
+    runs-on: epitechcontent/epitest-docker
+    needs: [check_program_compilation]
+    timeout-minutes: 2
+    steps:
+      - name: Check repository
+        uses: actions/checkout@v3.3.0
+      - name: Run tests
+        run: make tests_run
+
+  push_to_mirror:
+    runs-on: ubuntu-latest
+    needs: [run_tests]
+    if: github.event_name == 'push'
+    steps:
+      - name: Runs mirror
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+      - name: Mirroring action
+        uses: pixta-dev/repository-mirroring-action@v1.1.1
+        with:
+          repository: ${{ env.MIRROR_URL }}
+          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
