@@ -1,28 +1,43 @@
 ##
-## EPITECH PROJECT, 2024
-## Makefile
+## EPITECH PROJECT, 2023
+## B-PSU-100-MLH-1-1-navy-mael.bertocchi
 ## File description:
 ## Makefile
 ##
 
-INCLUDE		=		-I./include/
+NAME	=	my_navy
 
-SRC 		=		$(shell find -name *.c)
+UNIT	=	unit_tests
 
-NAME		=		amazed
+SRCS	=	$(shell find ./srcs/ -type f -name '*.c')
 
-all : $(NAME)
+TESTS 	=	$(shell find ./tests/ ./srcs/ -type f -name '*.c' ! -name "main.c")
 
-$(NAME) :
-	gcc -Wall -Wextra -g -o $(NAME) $(SRC) $(INCLUDE)
+OBJS	=	$(SRCS:.c=.o)
 
-clean :
-	rm -f vgcore*
-	rm -f coding-style-reports.log
+CFLAGS	+= 	-I./include/ -g -Wall -Wextra
 
-fclean : clean
+LDLIBS	+=	-lcriterion --coverage
+
+$(NAME): $(OBJS)
+	$(CC) -o $(NAME) $(OBJS)
+
+$(UNIT):
+	$(CC) -o $(UNIT) $(CFLAGS) $(TESTS) $(LDLIBS) $(LOADLIBES)
+
+all: $(NAME)
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
 	rm -f $(NAME)
+	rm -f $(UNIT)
+	rm -f *.gc*
 
-re : fclean all
+re: fclean all
 
-.PHONY : all clean fclean re
+tests_run: fclean $(UNIT)
+	./$(UNIT)
+
+.PHONY: all clean fclean re tests_run
