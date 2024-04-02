@@ -24,8 +24,10 @@ jobs:
         run: check.sh $(pwd) $(pwd)
 
   check_program_compilation:
-    runs-on: epitechcontent/epitest-docker
     needs: check_coding_style
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
     timeout-minutes: 2
     steps:
       - name: Check repository
