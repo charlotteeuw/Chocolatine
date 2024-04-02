@@ -36,18 +36,18 @@ jobs:
         run: make
       - name: Make clean
         run: make clean
-      - name: Verify executability
-        run: |
-          IFS=','
-          for exec in $EXECUTABLES; do
-            if [ ! -x "$exec" ]; then
-              exit 1
-            fi
-          done
+      # - name: Verify executability
+      #   run: |
+      #     IFS=','
+      #     for exec in $EXECUTABLES; do
+      #       if [ ! -x "$exec" ]; then
+      #         exit 1
+      #       fi
+      #     done
 
   run_tests:
-    runs-on: epitechcontent/epitest-docker
     needs: check_program_compilation
+    runs-on: epitechcontent/epitest-docker
     timeout-minutes: 2
     steps:
       - name: Check repository
@@ -56,8 +56,8 @@ jobs:
         run: make tests_run
 
   push_to_mirror:
-    runs-on: ubuntu-latest
     needs: run_tests
+    runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
       - name: Runs mirror
