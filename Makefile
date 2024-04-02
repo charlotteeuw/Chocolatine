@@ -9,9 +9,9 @@ NAME	=	my_navy
 
 UNIT	=	unit_tests
 
-SRCS	=	$(shell find ./srcs/ -type f -name '*.c')
+SRCS	=	$(shell find -name *.c)
 
-TESTS 	=	$(shell find ./tests/ ./srcs/ -type f -name '*.c' ! -name "main.c")
+TESTS 	=	$(shell find -name *.c)
 
 OBJS	=	$(SRCS:.c=.o)
 
