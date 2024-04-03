@@ -24,8 +24,8 @@ jobs:
         run: check.sh $(pwd) $(pwd)
       # - name: Check coding style
       #   run: |
-      #     errors = $(cat coding-style-reports.log | wc -l)
-      #     if ( $errors -gt 0); then
+      #     errors = $(cat coding-style-reports.log)
+      #     for $errors -gt 0); then
       #       exit 1
       #     fi
 
@@ -74,5 +74,7 @@ jobs:
       - name: Mirroring action
         uses: pixta-dev/repository-mirroring-action@v1
         with:
-          target_repo_url: ${{ env.MIRROR_URL }}
-          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
