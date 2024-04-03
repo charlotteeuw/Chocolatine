@@ -38,7 +38,7 @@ jobs:
         run: make clean
       - name: Verify executability
         run: |
-          for exec in $EXECUTABLES; do
+          for exec in ${{ env.EXECUTABLES }}; do
             if [ ! -x "$exec" ]; then
               exit 1
             fi
