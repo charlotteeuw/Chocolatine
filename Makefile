@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME	=	my_navy
+NAME	=	a.out
 
 UNIT	=	unit_tests
 
