@@ -22,6 +22,12 @@ jobs:
         uses: actions/checkout@v3.3.0
       - name: Check coding style
         run: check.sh $(pwd) $(pwd)
+      # - name: Check coding style
+      #   run: |
+      #     errors = $(cat coding-style-reports.log | wc -l)
+      #     if ( $errors -gt 0); then
+      #       exit 1
+      #     fi
 
   check_program_compilation:
     needs: check_coding_style
