@@ -26,6 +26,7 @@ jobs:
         run: |
           while IFS=':' read -r file line type error_code; do
             echo "::error file=${file},line=${line}::${type} coding style error: ${file}#L${line}"
+            echo "${error_code}"
           done < coding-style-reports.log
           if [ -s coding-style-reports.log ]; then
             echo "Found coding style errors."
