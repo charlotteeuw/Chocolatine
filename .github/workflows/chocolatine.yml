@@ -28,7 +28,6 @@ jobs:
             echo "::error file=${filename},line=${line},title=${type} coding style error::${error_code}"
           done < coding-style-reports.log
           if [ -s coding-style-reports.log ]; then
-            echo "Found coding style errors."
             exit 1
           fi
 
