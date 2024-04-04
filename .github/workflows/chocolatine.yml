@@ -19,15 +19,18 @@ jobs:
       image: ghcr.io/epitech/coding-style-checker:latest
     steps:
       - name: Check repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v4
       - name: Check coding style
         run: check.sh $(pwd) $(pwd)
-      # - name: Check coding style
-      #   run: |
-      #     errors = $(cat coding-style-reports.log)
-      #     for $errors -gt 0); then
-      #       exit 1
-      #     fi
+      - name: Print coding style errors
+        run: |
+          while IFS=':' read -r file line error_code; do
+            echo "::error file=${file},line=${line}::error coding style: ${file}#L${line} ${error_code}"
+          done < coding-style-reports.log
+          if [ -s coding-style-reports.log ]; then
+            echo "Found coding style errors."
+            exit 1
+          fi
 
   check_program_compilation:
     needs: check_coding_style
@@ -37,7 +40,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: Check repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v4
       - name: Build program
         run: make
       - name: Make clean
@@ -58,7 +61,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: Check repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v4
       - name: Run tests
         run: make tests_run
 
@@ -68,7 +71,7 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - name: Runs mirror
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Mirroring action
