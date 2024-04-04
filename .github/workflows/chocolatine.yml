@@ -25,7 +25,7 @@ jobs:
       - name: Print coding style errors
         run: |
           while IFS=':' read -r filename line type error_code; do
-            echo "::error file=${filename},line=${line},title=${type} coding style error: ::${error_code}"
+            echo "::error file=${filename},line=${line},title=${type} coding style error::${error_code}"
           done < coding-style-reports.log
           if [ -s coding-style-reports.log ]; then
             echo "Found coding style errors."
