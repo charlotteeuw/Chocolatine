@@ -4,9 +4,13 @@ on:
   push:
     branches-ignore:
       - 'ga-ignore-*'
+    paths-ignore:
+      - '.github/workflows/chocolatine.yml'
   pull_request:
     branches-ignore:
       - 'ga-ignore-*'
+      paths-ignore:
+      - '.github/workflows/chocolatine.yml'
 
 env:
   MIRROR_URL: "git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git"
@@ -36,12 +40,12 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: epitechcontent/epitest-docker
-    timeout-minutes: 2
     steps:
       - name: Check repository
         uses: actions/checkout@v4
       - name: Build program
         run: make
+        timeout-minutes: 2
       - name: Make clean
         run: make clean
       - name: Verify executability
