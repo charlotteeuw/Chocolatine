@@ -68,6 +68,7 @@ jobs:
     needs: run_tests
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    if: ${{ github.repository != env.MIRROR_URL }}
     steps:
       - name: Runs mirror
         uses: actions/checkout@v4
