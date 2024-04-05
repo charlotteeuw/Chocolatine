@@ -17,10 +17,15 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/epitech/coding-style-checker:latest
-    if: ${{ github.repository != 'git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git' }}
+    #if: ${{ github.repository != 'git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git' }}
     steps:
       - name: Check repository
         uses: actions/checkout@v4
+      - name: check current repository
+        run: |
+          if [ github.repository == 'git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git' ]; then
+            exit 1
+          fi
       - name: Check coding style
         run: check.sh $(pwd) $(pwd)
       - name: Print coding style errors
@@ -37,7 +42,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: epitechcontent/epitest-docker
-    if: ${{ github.repository != 'git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git' }}
     steps:
       - name: Check repository
         uses: actions/checkout@v4
@@ -59,7 +63,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: epitechcontent/epitest-docker
-    if: ${{ github.repository != 'git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git' }}
     timeout-minutes: 2
     steps:
       - name: Check repository
@@ -70,7 +73,6 @@ jobs:
   push_to_mirror:
     needs: run_tests
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.repository != 'git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git' }}
     steps:
       - name: Runs mirror
         uses: actions/checkout@v4
