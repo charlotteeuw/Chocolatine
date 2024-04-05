@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/epitech/coding-style-checker:latest
+    if [ github.repository == "git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git" ]; then
+      exit 1
+    fi
     steps:
       - name: Check repository
         uses: actions/checkout@v4
