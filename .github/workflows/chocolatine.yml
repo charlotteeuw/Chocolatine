@@ -9,7 +9,7 @@ on:
   pull_request:
     branches-ignore:
       - 'ga-ignore-*'
-      paths-ignore:
+    paths-ignore:
       - '.github/workflows/chocolatine.yml'
 
 env:
