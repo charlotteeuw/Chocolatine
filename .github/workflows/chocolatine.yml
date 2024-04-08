@@ -10,7 +10,7 @@ on:
 
 env:
   MIRROR_URL: "git@github.com:EpitechPromo2028/B-DOP-200-MLH-2-1-chocolatine-charlotte.weston.git"
-  EXECUTABLES: "a.out"
+  EXECUTABLES: "coucou"
 
 jobs:
   check_coding_style:
